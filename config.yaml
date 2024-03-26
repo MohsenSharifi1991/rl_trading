@@ -1,0 +1,25 @@
+# Environment Hyperparameters
+env_hyperparameters:
+  algo_name: DQN
+  env_name: TradingSystem_v0
+  device: auto  # Use 'auto' to automatically select between 'cuda' and 'cpu'
+  seed: 11
+  train_eps: 200
+
+# Algorithm Hyperparameters
+algo_hyperparameters:
+  gamma: 0.95
+  epsilon_start: 0.90
+  epsilon_end: 0.01
+  epsilon_decay: 500
+  lr: 0.0001
+  memory_capacity: 1000
+  batch_size: 64
+  target_update: 4
+  hidden_dim: 128
+
+# Save Paths
+save_paths:
+  result_path: /outputs/TradingSystem_v0/results/  # Adjust with actual path
+  model_path: /outputs/TradingSystem_v0/models/  # Adjust with actual path
+  save: true
