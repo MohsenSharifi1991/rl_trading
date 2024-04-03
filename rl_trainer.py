@@ -160,8 +160,6 @@ class RLTrainer:
         print('Finish Training A2C!')
         return self.rewards, self.ma_rewards
 
-    # You can add other training methods here following the same pattern.
-
     def _update_ma_rewards(self, ep_reward):
         '''Update moving average of rewards.'''
         if self.ma_rewards:

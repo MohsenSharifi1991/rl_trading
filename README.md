@@ -10,7 +10,7 @@ The project focuses on utilizing three main DRL algorithms:
 - Policy Gradients (PG) and PGBaseline
 - Advantage Actor-Critic (A2C)
 
-These algorithms are applied to process and analyze financial data from the 50 most liquid futures contracts from 2011 to 2019, aiming to generate actionable trading signals that can navigate the complexities of various market conditions.
+These algorithms are applied to process and analyze financial data from 2011 to 2019, aiming to generate actionable trading signals that can navigate the complexities of various market conditions.
 ## Methodology
 
 ### State Space
@@ -29,16 +29,6 @@ Two types of action spaces are explored:
 The reward function is designed to maximize profits, incorporating volatility scaling to adjust trade positions based on market volatility. It factors in transaction costs, encouraging strategies that balance the pursuit of profit with the cost of trading.
 
 ## Getting Started
-
-### Prerequisites
-
-Ensure you have the following tools and libraries installed:
-
-- Python (>= 3.6)
-- PyTorch
-- NumPy
-- Pandas
-- Matplotlib or Seaborn (for visualization)
 
 ### Installation
 
@@ -63,4 +53,5 @@ This script will preprocess the data, train the DRL models on the training datas
 
 - https://github.com/lukesalamone/deep-q-trading-agent
 - https://medium.com/@murrawang/deep-q-network-and-its-application-in-algorithmic-trading-16440a112e04
+- Zhang, Zihao, Stefan Zohren, and Stephen Roberts. "Deep reinforcement learning for trading." arXiv preprint arXiv:1911.10107 (2019).
 

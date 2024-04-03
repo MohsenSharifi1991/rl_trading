@@ -13,11 +13,13 @@ class Config:
     def __init__(self):
         ################################## env hyperparameters ###################################
         self.algo_name = 'DQN' # algorithmic name
+        self.baseline_algo_names = ['LongOnly', 'SignR', 'MACDSignal']
         self.env_name = f'TradingSystem_v0_{self.algo_name}' # environment name
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() else "cpu")  # examine GPU
         self.seed = 11 # random seed
-        self.train_eps = 50 # training episodes
+        self.train_eps = 200 # training episodes
+        self.baseline_eps = 1
         ################################################################################
 
         ################################## algo hyperparameters ###################################
@@ -40,7 +42,7 @@ class Config:
         self.hidden_dim = 8  # MLF
 
         # Transaction cost from paper, applicable in reward calculation
-        self.transaction_cost_bp = 20  # basis points transaction cost from paper
+        self.transaction_cost_bp = 2  # basis points transaction cost from paper
         ################################################################################
 
         ################################# save path ##############################

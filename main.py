@@ -1,4 +1,5 @@
 from agents.a2c import A2C
+from agents.baseline import LongOnly, SignR, MACDSignal
 from agents.dqn import DQN
 from agents.pg import PG, PGContinuous
 from agents.pgbaseline import PGBaseline
@@ -9,8 +10,11 @@ from trading_env import TradingEnv
 from utils.load_data import load_and_process_data, split_data
 import os
 import matplotlib.pyplot as plt
-from test import test
+from test import test, run_baseline
 from utils.plots import plot_cumulative_trade_return
+import seaborn as sns
+import pandas as pd
+import numpy as np
 
 if __name__ == '__main__':
     cfg = Config()
@@ -41,7 +45,9 @@ if __name__ == '__main__':
     action_space_dim = env.action_space.n
 
     # Example with PG agent, adjust as necessary for other agents like DQN, PGBaseline, A2C, etc.
-    if cfg.algo_name == 'DQN':
+    if cfg.algo_name == 'LongOnly':
+        agent = LongOnly(action_space_dim)
+    elif cfg.algo_name == 'DQN':
         agent = DQN(state_space_dim, action_space_dim, cfg)
     elif cfg.algo_name == 'PG':
         agent = PG(state_space_dim, action_space_dim, cfg)
@@ -59,6 +65,28 @@ if __name__ == '__main__':
     os.makedirs(cfg.result_path, exist_ok=True)  # create output folders if they don't exist
     os.makedirs(cfg.model_path, exist_ok=True)
     agent.save(path=cfg.model_path)  # save model
+    agents_results = {}
+    for baseline_algo in cfg.baseline_algo_names:
+        if baseline_algo == 'LongOnly':
+            baseline_agent = LongOnly(action_space_dim)
+        elif baseline_algo == 'MACDSignal':
+            baseline_agent = SignR(action_space_dim)
+        elif baseline_algo == 'MACDSignal':
+            baseline_agent = MACDSignal(action_space_dim)
+        rewards_baseline, ma_rewards_baseline, results_df_baseline = run_baseline(cfg, env, baseline_agent)
+
+        # Rename the 'Daily Reward' column to the agent's name
+        results_df_baseline.rename(columns={'Daily Reward': baseline_algo}, inplace=True)
+        agents_results[baseline_algo] = results_df_baseline
+
+    # Combine all results into a single DataFrame
+    combined_results_df = pd.concat(agents_results.values(), axis=1)
+    combined_results_df.plot(figsize=(12, 8))  # Plotting with pandas built-in plot method
+    plt.title('Daily Reward Comparison of Baseline Agents')
+    plt.xlabel('Date')
+    plt.ylabel('Daily Reward')
+    plt.legend(title='Agent')
+    plt.show()
 
     # Plot the training results
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))

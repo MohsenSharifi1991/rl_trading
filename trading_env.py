@@ -2,7 +2,6 @@ import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 from reward import calculate_reward
-# TODO fix the reward function
 
 
 class TradingEnv(gym.Env):
@@ -60,10 +59,6 @@ class TradingEnv(gym.Env):
 
         # Calculate the price change and the action change
         delta_price_t = current_price - self.previous_price
-
-        # delta_action_t = action_mapped - self.previous_action
-        # self.reward = calculate_reward(self.previous_action, delta_price_t, self.sigma_tgt,
-        #                                self.sigma_t_minus_1, self.bp, delta_action_t, self.previous_price)
 
         # Update reward calculation with the current volatility and action changes
         self.reward = calculate_reward(
